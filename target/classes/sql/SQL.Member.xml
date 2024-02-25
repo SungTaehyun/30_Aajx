@@ -12,9 +12,13 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	
 	<!-- public int signUp(HashMap<String, String> params); -->
 	<insert id="signUp" parameterType="java.util.HashMap">
+		<selectKey resultType="int" keyProperty="memberIdx" order="BEFORE">
+			select nextval('lecture.member_seq')
+		</selectKey>
 		INSERT INTO lecture.member
-		(member_id, passwd, nickname, member_name, email, join_dtm)
+		(member_idx,member_id, passwd, nickname, member_name, email, join_dtm)
 		VALUES(
+			#{memberIdx},
 			#{memberId}, 
 			#{passwd}, 
 			#{nickname}, 
@@ -22,5 +26,6 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			#{email}, 
 			to_char(now(), 'YYYYMMDDHH24MISS')
 		)
+
 	</insert>
 </mapper>
